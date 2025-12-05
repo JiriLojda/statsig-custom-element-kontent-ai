@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useLayoutEffect, useMemo } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { ReactNode, useState } from "react";
 import { Config, isConfig } from "./config";
 import { Value, parseValue } from "./value";
@@ -21,7 +21,7 @@ export const useVariantInfo = () => useContext(Context).variant;
 type CustomElementContext = Readonly<{
   config: Config;
   value: Value | null;
-  setValue: (newValue: Value) => void;
+  setValue: (newValue: Value | null) => void;
   isDisabled: boolean;
   environmentId: string;
   item: ItemInfo;
@@ -37,6 +37,7 @@ type ItemInfo = Readonly<{
 
 type CustomElementContextProps = Readonly<{
   height?: number | "default" | "dynamic";
+  heightKey?: string;
   children: ReactNode;
 }>;
 
@@ -96,7 +97,7 @@ export const CustomElementContext = (props: CustomElementContextProps) => {
     CustomElement.onDisabledChanged(setIsDisabled);
   }, []);
 
-  useDynamicHeight(props.height === "dynamic", value);
+  useDynamicHeight(props.height === "dynamic", value, props.heightKey);
 
   useEffect(() => {
     if (typeof props.height === "number") {
@@ -134,15 +135,18 @@ const Context = React.createContext<CustomElementContext>({
   setValue: () => { },
 });
 
-const useDynamicHeight = (isEnabled: boolean, value: Value | null | typeof specialMissingValue) => {
+const useDynamicHeight = (isEnabled: boolean, value: Value | null | typeof specialMissingValue, heightKey?: string) => {
+  const prevKey = useRef(heightKey);
+
   useLayoutEffect(() => {
     if (!isEnabled) {
       return;
     }
+    prevKey.current = heightKey;
     const newSize = Math.max(document.documentElement.offsetHeight, 100);
 
     CustomElement.setHeight(Math.ceil(newSize));
-  }, [value, isEnabled]); // recalculate the size when value changes
+  }, [value, isEnabled, heightKey]); // recalculate the size when value changes
 };
 
 const specialMissingValue = "This value is special and indicates that a value is missing. This allows having undefined and null as valid values." as const;

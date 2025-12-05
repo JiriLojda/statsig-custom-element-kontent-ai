@@ -1,0 +1,101 @@
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  background-color: #ffffff;
+  padding: 1.5rem;
+}
+
+.spinner {
+  height: 1.25rem;
+  width: 1.25rem;
+  animation: spin 1s linear infinite;
+  color: #2563eb;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinnerTrack {
+  opacity: 0.25;
+}
+
+.spinnerHead {
+  opacity: 0.75;
+}
+
+.loadingText {
+  margin-left: 0.75rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.errorContainer {
+  border-radius: 0.5rem;
+  border: 1px solid #fecaca;
+  background-color: #fef2f2;
+  padding: 1rem;
+}
+
+.errorContent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.errorIcon {
+  height: 1.25rem;
+  width: 1.25rem;
+  color: #ef4444;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.errorBody {
+  flex: 1;
+}
+
+.errorTitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #991b1b;
+}
+
+.errorMessage {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: #dc2626;
+}
+
+.errorCode {
+  border-radius: 0.25rem;
+  background-color: #fecaca;
+  padding: 0 0.25rem;
+}
+
+.errorActions {
+  margin-top: 0.75rem;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.errorLink {
+  font-size: 0.875rem;
+  color: #b91c1c;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.errorLink:hover {
+  color: #991b1b;
+}

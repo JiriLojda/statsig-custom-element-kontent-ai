@@ -1,5 +1,6 @@
+// The value stores the Statsig experiment ID
 export type Value = Readonly<{
-  valueKey: string;
+  experimentId: string;
 }>;
 
 export const parseValue = (input: string | null): Value | null | "invalidValue" => {
@@ -12,10 +13,10 @@ export const parseValue = (input: string | null): Value | null | "invalidValue" 
 
     return isValidValue(parsedValue) ? parsedValue : "invalidValue";
   }
-  catch (e) {
+  catch {
     return "invalidValue";
   }
 };
 
-const isValidValue = (obj: Readonly<Record<string, unknown>>) =>
-  "valueKey" in obj;
+const isValidValue = (obj: Readonly<Record<string, unknown>>): obj is Value =>
+  typeof obj === "object" && obj !== null && "experimentId" in obj && typeof obj.experimentId === "string";
