@@ -8,11 +8,7 @@ import { SpinnerIcon } from '../icons/SpinnerIcon';
 import { ErrorIcon } from '../icons/ErrorIcon';
 import styles from './StatsigExperiment.module.css';
 
-type Props = Readonly<{
-  onHeightChange: () => void;
-}>;
-
-export const StatsigExperiment = ({ onHeightChange }: Props) => {
+export const StatsigExperiment = () => {
   const [value, setValue] = useValue();
   const itemInfo = useItemInfo();
   const isDisabled = useIsDisabled();
@@ -22,10 +18,9 @@ export const StatsigExperiment = ({ onHeightChange }: Props) => {
   const asyncFn = useMemo(
     () => experimentId ? async () => {
       const experiment = await getExperiment(experimentId);
-      onHeightChange();
       return experiment;
     } : null,
-    [experimentId, onHeightChange]
+    [experimentId]
   );
 
   const { data: experiment, isLoading, error, refetch } = useAsyncConditional(
@@ -46,7 +41,6 @@ export const StatsigExperiment = ({ onHeightChange }: Props) => {
       <CreateExperiment
         itemInfo={itemInfo}
         onCreated={handleCreated}
-        onHeightChange={onHeightChange}
         isDisabled={isDisabled}
       />
     );

@@ -16,11 +16,10 @@ type ItemInfo = {
 type CreateExperimentProps = {
   readonly itemInfo: ItemInfo;
   readonly onCreated: (experimentId: string) => void;
-  readonly onHeightChange: () => void;
   readonly isDisabled: boolean;
 };
 
-export const CreateExperiment: FC<CreateExperimentProps> = ({ itemInfo, onCreated, onHeightChange, isDisabled }) => {
+export const CreateExperiment: FC<CreateExperimentProps> = ({ itemInfo, onCreated, isDisabled }) => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
   const [experimentName, setExperimentName] = useState(itemInfo.codename);
@@ -30,13 +29,11 @@ export const CreateExperiment: FC<CreateExperimentProps> = ({ itemInfo, onCreate
   
   const openForm = useCallback(() => {
     setIsFormOpen(true);
-    onHeightChange();
-  }, [onHeightChange]);
+  }, []);
 
   const closeForm = useCallback(() => {
     setIsFormOpen(false);
-    onHeightChange();
-  }, [onHeightChange]);
+  }, []);
 
   const openSelectModal = useCallback(() => {
     setIsSelectModalOpen(true);
@@ -73,7 +70,7 @@ export const CreateExperiment: FC<CreateExperimentProps> = ({ itemInfo, onCreate
 
   if (!isFormOpen) {
     return (
-      <>
+      <div className={styles.emptyStateWrapper}>
         <div className={styles.emptyState}>
           <LightbulbIcon className={styles.emptyIcon} />
           <h3 className={styles.emptyTitle}>No experiment linked</h3>
@@ -106,7 +103,7 @@ export const CreateExperiment: FC<CreateExperimentProps> = ({ itemInfo, onCreate
             onClose={closeSelectModal}
           />
         )}
-      </>
+      </div>
     );
   }
 
