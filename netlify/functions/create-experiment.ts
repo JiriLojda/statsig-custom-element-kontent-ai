@@ -37,10 +37,9 @@ export const handler: Handler = async (event: HandlerEvent) => {
     };
   }
 
-  let body: CreateExperimentBody;
-  try {
-    body = JSON.parse(event.body ?? '{}');
-  } catch {
+  const body = parseBody(event.body);
+
+  if (!body) {
     return {
       statusCode: 400,
       headers: corsHeaders,
@@ -75,11 +74,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
     }),
   });
   
-  console.log('response to ', STATSIG_API_URL, response);
-
   const data = await response.json();
-
-  console.log('data from response', data);
 
   if (!response.ok) {
     return {
@@ -94,4 +89,12 @@ export const handler: Handler = async (event: HandlerEvent) => {
     headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     body: JSON.stringify(data.data),
   };
+};
+
+const parseBody = (body: string | null): CreateExperimentBody | null => {
+  try {
+    return JSON.parse(body ?? '{}');
+  } catch {
+    return null;
+  }
 };
