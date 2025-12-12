@@ -17,8 +17,8 @@ export const listExperiments = async (): Promise<ReadonlyArray<StatsigExperiment
   return response.json();
 };
 
-export const getExperiment = async (name: string): Promise<StatsigExperiment | null> => {
-  const response = await fetch(`${getBaseUrl()}/get-experiment?name=${encodeURIComponent(name)}`);
+export const getExperiment = async (id: string): Promise<StatsigExperiment | null> => {
+  const response = await fetch(`${getBaseUrl()}/get-experiment?id=${encodeURIComponent(id)}`);
 
   if (response.status === 404) {
     return null;

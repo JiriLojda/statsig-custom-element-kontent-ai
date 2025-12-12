@@ -22,12 +22,12 @@ export const handler: Handler = async (event: HandlerEvent) => {
     };
   }
 
-  const name = event.queryStringParameters?.name;
-  if (!name) {
+  const id = event.queryStringParameters?.id;
+  if (!id) {
     return {
       statusCode: 400,
       headers: corsHeaders,
-      body: JSON.stringify({ error: 'Missing name parameter' }),
+      body: JSON.stringify({ error: 'Missing id parameter' }),
     };
   }
 
@@ -40,7 +40,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
     };
   }
 
-  const response = await fetch(`${STATSIG_API_URL}/experiments/${encodeURIComponent(name)}`, {
+  const response = await fetch(`${STATSIG_API_URL}/experiments/${id}`, {
     headers: {
       'STATSIG-API-KEY': apiKey,
       'STATSIG-API-VERSION': API_VERSION,
